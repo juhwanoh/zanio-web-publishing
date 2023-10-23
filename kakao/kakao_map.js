@@ -20,47 +20,70 @@ function createMap() {
     return map;
 }
 
-function addMarker({name, x, y}) {
+/*
+    Marker DATA
+    {
+        name: '마커1',
+        x: 33.450701,
+        y: 126.570667,
+        active: false,
+        markerType : 'normal' or 'circle'
+    }
+*/
+
+function addMarkers(datas) {
+
+    clearMarkers();
+    datas = datas || [];
+
+    for (var i = 0; i < datas.length; i++) {
+        let data = datas[i];
+        let marker = addMarker(data);
+        marker.setMap(map);   
+        markers.push(marker);
+    }
+}
+
+function addMarker({name, x, y, active=false}) {
 
     // Marker 위치
     let position = new kakao.maps.LatLng(x, y);
-    let markerImage = createMarkerImage();
-    let markerDragImage = createMarkerDragImage();
+    let markerImage = createMarkerImage({width: 64, height: 64});
+    let markerDragImage = createMarkerImage({width: 72, height: 72});
+    let markerSamllImage = createMarkerImage({width: 32, height: 32});
     
     let marker = new kakao.maps.Marker({
         map: map,
         position: position,
         title: name,
-        image: markerImage,
-        draggable: true
+        image: active? markerImage : markerSamllImage,
+        draggable: active
     });
     
-
-    // let infoWindow = createInfoWindow({name, x, y});
-    // infoWindow.open(map, marker);
-
-//    marker.setMap(map);
-    // marker.setDraggable(true);
-
-    // 도착 마커에 dragstart 이벤트를 등록합니다
-    kakao.maps.event.addListener(marker, 'dragstart', function() {
-        // 도착 마커의 드래그가 시작될 때 마커 이미지를 변경합니다
-        marker.setImage(markerDragImage);
+    kakao.maps.event.addListener(marker, 'click', () => {
+        
+        markers.forEach((marker) => {
+            marker.setImage(markerSamllImage);
+            marker.setDraggable(false);
+        });
+        
+        marker.setImage(markerImage);
+        marker.setDraggable(true);
     });
-
-    kakao.maps.event.addListener(marker, 'dragend', function() {
-        // 도착 마커의 드래그가 시작될 때 마커 이미지를 변경합니다
+    
+    kakao.maps.event.addListener(marker, 'dragstart', () => marker.setImage(markerDragImage));
+    kakao.maps.event.addListener(marker, 'dragend', () => {
         marker.setImage(markerImage);
     });
 
     return marker;
 }
 
-function createMarkerImage() {
+function createMarkerImage({width=32, height=32}) {
     // Marker 이미지
-    const imageSrc = '/images/marker.png';
-    const markerWidth = 48;
-    const markerHeight = 48;
+    const imageSrc = '/images/marker.svg';
+    const markerWidth = width;
+    const markerHeight = height;
     const markerSize = new kakao.maps.Size(markerWidth, markerHeight);
     const imageOption = {offset: new kakao.maps.Point(markerWidth/2, markerHeight)};
 
@@ -70,18 +93,24 @@ function createMarkerImage() {
     return markerImage
 }
 
-function createMarkerDragImage() {
-    // Marker 이미지
-    const imageSrc = '/images/marker.png';
-    const markerWidth = 48;
-    const markerHeight = 48;
-    const markerSize = new kakao.maps.Size(markerWidth, markerHeight);
-    const imageOption = {offset: new kakao.maps.Point(markerWidth/2, markerHeight)};
+function clearMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    markers = [];
+}
 
+function deactiveMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i]['active'] = false;
+    }
+}
 
-    let markerImage = new kakao.maps.MarkerImage(imageSrc, markerSize, imageOption);
-
-    return markerImage
+function redrawMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+        markers[i].setMap(map);
+    }
 }
 
 

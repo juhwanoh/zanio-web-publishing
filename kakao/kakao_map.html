@@ -3,47 +3,102 @@
   <head>
     <meta charset="utf-8" />
     <title>카카오맵 지도</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div id="map" style="width: 100%; height: 700px"></div>
+    <div id="map" style="width: 100%; height: 400px"></div>
     <div id="clickLatlng"></div>
-
-    <script
-      type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de4390532a488fe94465cefdcc8b1cf8"
-    ></script>
+    <div class="p-2">
+      <button id="btn1" class="btn w-32 rounded-full bg-blue-500 hover:bg-blue-700 text-white">마커1</button>
+      <button id="btn2" class="btn w-32 rounded-full bg-blue-500 hover:bg-blue-700 text-white">마커2</button>
+      <button id="btn3" class="btn w-32 rounded-full bg-blue-500 hover:bg-blue-700 text-white">마커 4개 추가</button>
+    </div>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de4390532a488fe94465cefdcc8b1cf8"></script>
     <script type="text/javascript" src="./kakao_map.js"></script>
     <script>
-      // 맵 생성
-      var map = createMap();
-      
-      var marker = addMarker({
-            name:'송도문화로84번길', 
-            x:33.450701, 
-            y:126.570667
+
+      let map;
+      let markers = [];
+
+      $(document).ready(() => {
+        
+        // 맵 생성
+        map = createMap();
+        // 지도에 클릭 이벤트를 등록합니다
+        // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+        kakao.maps.event.addListener(map, "click", function (mouseEvent) {
+          // 클릭한 위도, 경도 정보를 가져옵니다
+          var latlng = mouseEvent.latLng;
+
+          // 마커 위치를 클릭한 위치로 옮깁니다
+          //marker.setPosition(latlng);
+
+          console.log(mouseEvent);
+          // 마우스로 클릭한 위치의 위도와 경도를 표시할 메세지
+          var message = "클릭한 위치의 위도는 " + latlng.getLat() + " 이고, ";
+          message += "경도는 " + latlng.getLng() + " 입니다";
+
+          // 'clickLatlng'라는 아이디값을 가진 <div> 태그의 innerHTML 으로 위 메세지를 설정합니다.
+          var resultDiv = document.getElementById("clickLatlng");
+          resultDiv.innerHTML = message;
         });
 
-      // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-      // marker.setMap(null);
+        $("#btn1").click(() => {
+          var marker = addMarker({
+            name:'송도문화로84번길', 
+            x:33.450701, 
+            y:126.570667,
+            active: true,
+          });
 
-      // 지도에 클릭 이벤트를 등록합니다
-      // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-    //   kakao.maps.event.addListener(map, "click", function (mouseEvent) {
-    //     // 클릭한 위도, 경도 정보를 가져옵니다
-    //     var latlng = mouseEvent.latLng;
+          marker.setMap(map);
+        });
 
-    //     // 마커 위치를 클릭한 위치로 옮깁니다
-    //     marker.setPosition(latlng);
+        $("#btn2").click(() => {
+          var marker = addMarker({
+            name:'한국비엠아이 본사', 
+            x:33.44939409587885, 
+            y:126.57346402269822,
+            active: false,
+          });
 
-    //     console.log(mouseEvent);
-    //     // 마우스로 클릭한 위치의 위도와 경도를 표시할 메세지
-    //     var message = "클릭한 위치의 위도는 " + latlng.getLat() + " 이고, ";
-    //     message += "경도는 " + latlng.getLng() + " 입니다";
+          marker.setMap(map);
+        });
 
-    //     // 'clickLatlng'라는 아이디값을 가진 <div> 태그의 innerHTML 으로 위 메세지를 설정합니다.
-    //     var resultDiv = document.getElementById("clickLatlng");
-    //     resultDiv.innerHTML = message;
-    //   });
-    </script>
+        $("#btn3").click(() => {
+          let datas = [
+          {
+            name:'송도문화로84번길', 
+            x:33.450701, 
+            y:126.570667,
+            active: true,
+          },
+          {
+            name:'한국비엠아이 본사', 
+            x:33.44939409587885, 
+            y:126.57346402269822,
+            active: false,
+          },
+          {
+            name:'테니스장', 
+            x:33.44977763869631, 
+            y:126.5696547600171,
+            active: false,
+          },
+          {
+            name:'나눔건설사업관리', 
+            x:33.45115553387461, 
+            y:126.57180980908372,
+            active: false,
+          }
+          ];
+
+          addMarkers(datas);
+        });
+      })      
+    </script>    
   </body>
 </html>
