@@ -21,11 +21,11 @@ function createMap() {
 
     var mapTypeControl = new kakao.maps.MapTypeControl();
     // 지도 타입 컨트롤을 지도에 표시합니다
-    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.BOTTOMLEFT);
 
     // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
     var zoomControl = new kakao.maps.ZoomControl();
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+    map.addControl(zoomControl, kakao.maps.ControlPosition.BOTTOMRIGHT);
 
     return map;
 }
@@ -201,4 +201,13 @@ function getSelectedMarkers() {
 // Marker를 추가
 function addMarkersOnMap(datas) {
     addMarkers(JSON.parse(datas));
+}
+
+function resizeMap(width, height) {
+    $("#map").css(
+        {
+            "width": `${width}px`,
+            "height": `${height}px`
+        }
+    );
 }
