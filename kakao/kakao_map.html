@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>카카오맵 지도</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
     <link href="./kakao_map.css" rel="stylesheet" type="text/css" />
@@ -11,7 +12,7 @@
     <div id="clickLatlng"></div>
     <div style="padding: 10px;">
         <button id="btn1" type="button" class="btn btn-primary">마커1</button>
-        <button id="btn2" type="button" class="btn btn-primary">마커1</button>
+        <button id="btn2" type="button" class="btn btn-primary">마커2</button>
         <button id="btn3" type="button" class="btn btn-primary">마커 4개</button>
     </div>
     
@@ -45,14 +46,14 @@
         });
 
         $("#btn1").click(() => {
-          var marker = addMarker({
-            name:'송도문화로84번길', 
-            x:33.450701, 
-            y:126.570667,
+          var marker = addMarkers([{
+            name:'글로벌캠퍼스푸르지오아파트', 
+            x:37.37530360, 
+            y:126.63303008,
             selected: true,
-          });
+          }]);
 
-          marker.setMap(map);
+          //moveToCenter(marker.getPosition().getLat(), marker.getPosition().getLng());
         });
 
         $("#btn2").click(() => {

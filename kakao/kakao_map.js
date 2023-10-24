@@ -184,7 +184,11 @@ function showInfoWindow2(marker) {
 // APP 과의 통신(APP <-- --> WEB)
 ///////////////////////////////////////////////////
 
-// 
+function moveToCenter(x,y) {
+    map.setCenter(new kakao.maps.LatLng(x, y));
+}
+
+
 function getSelectedMarker() {
     return markers.find((m) => m.getDraggable());
 }
