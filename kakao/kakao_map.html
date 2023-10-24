@@ -4,24 +4,22 @@
     <meta charset="utf-8" />
     <title>카카오맵 지도</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="./kakao_map.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div id="map" style="width: 100%; height: 400px"></div>
     <div id="clickLatlng"></div>
-    <div class="p-2">
-      <button id="btn1" class="btn w-32 rounded-full bg-blue-500 hover:bg-blue-700 text-white">마커1</button>
-      <button id="btn2" class="btn w-32 rounded-full bg-blue-500 hover:bg-blue-700 text-white">마커2</button>
-      <button id="btn3" class="btn w-32 rounded-full bg-blue-500 hover:bg-blue-700 text-white">마커 4개 추가</button>
+    <div style="padding: 10px;">
+        <button id="btn1" type="button" class="btn btn-primary">마커1</button>
+        <button id="btn2" type="button" class="btn btn-primary">마커1</button>
+        <button id="btn3" type="button" class="btn btn-primary">마커 4개</button>
     </div>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de4390532a488fe94465cefdcc8b1cf8"></script>
     <script type="text/javascript" src="./kakao_map.js"></script>
     <script>
-
-      let map;
-      let markers = [];
 
       $(document).ready(() => {
         
@@ -51,7 +49,7 @@
             name:'송도문화로84번길', 
             x:33.450701, 
             y:126.570667,
-            active: true,
+            selected: true,
           });
 
           marker.setMap(map);
@@ -62,7 +60,7 @@
             name:'한국비엠아이 본사', 
             x:33.44939409587885, 
             y:126.57346402269822,
-            active: false,
+            selected: false,
           });
 
           marker.setMap(map);
@@ -74,25 +72,25 @@
             name:'송도문화로84번길', 
             x:33.450701, 
             y:126.570667,
-            active: true,
+            selected: false,
           },
           {
             name:'한국비엠아이 본사', 
             x:33.44939409587885, 
             y:126.57346402269822,
-            active: false,
+            selected: false,
           },
           {
             name:'테니스장', 
             x:33.44977763869631, 
             y:126.5696547600171,
-            active: false,
+            selected: true,
           },
           {
             name:'나눔건설사업관리', 
             x:33.45115553387461, 
             y:126.57180980908372,
-            active: false,
+            selected: false,
           }
           ];
 
